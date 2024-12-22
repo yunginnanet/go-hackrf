@@ -115,7 +115,7 @@ func DeviceList() ([]*DeviceInfo, error) {
 	if clist.devicecount < 1 {
 		return nil, nil
 	}
-	fmt.Printf("%d devices\n", clist.devicecount)
+	// fmt.Printf("%d devices\n", clist.devicecount)
 
 	serials := (*[1 << 30](*C.char))(unsafe.Pointer(clist.serial_numbers))[:clist.devicecount:clist.devicecount]
 	usbBoardIDs := (*[1 << 30](C.int))(unsafe.Pointer(clist.usb_board_ids))[:clist.devicecount:clist.devicecount]
@@ -129,6 +129,8 @@ func DeviceList() ([]*DeviceInfo, error) {
 			USBDeviceIndex: int(usbDeviceIndexes[i]),
 		}
 	}
+
+	C.hackrf_device_list_free(clist)
 
 	return devices, nil
 }
