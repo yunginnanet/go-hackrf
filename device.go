@@ -123,7 +123,7 @@ func (d *Device) StartTX(cb Callback) error {
 		tx:  true,
 		dev: d,
 	})
-	return toError(C.hackrf_start_tx(d.cdev, (*[0]byte)(unsafe.Pointer(C.rxCBPtr)), unsafe.Pointer(uintptr(cbIx))))
+	return toError(C.hackrf_start_tx(d.cdev, (*[0]byte)(unsafe.Pointer(C.txCBPtr)), unsafe.Pointer(uintptr(cbIx))))
 }
 
 func (d *Device) StopTX() error {
