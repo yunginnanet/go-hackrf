@@ -95,6 +95,14 @@ func (d *Device) Version() (string, error) {
 	return C.GoString(ver), nil
 }
 
+func (d *Device) GetTransferBufferSize() (int, error) {
+	size := int(C.hackrf_get_transfer_buffer_size(d.cdev))
+	if size <= 0 {
+		return 0, toError(C.HACKRF_ERROR_OTHER)
+	}
+	return size, nil
+}
+
 // StartRX starts sampling sending the IQ samples to the callback.
 func (d *Device) StartRX(cb Callback) error {
 	cbIx := d.registerCallback(&callbackContext{
